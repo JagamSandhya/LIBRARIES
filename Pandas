@@ -1,0 +1,171 @@
+Pandas:
+
+Pandas is a powerful Python library designed for data manipulation and analysis. It provides flexible and efficient tools for working with structured data, primarily using two key data structures:
+Series: One-dimensional array-like object.
+DataFrame: Two-dimensional tabular data structure (like a spreadsheet).
+
+Key Features of Pandas
+Easy handling of missing data.
+Powerful and flexible data alignment.
+Ability to reshape and pivot datasets.
+Support for merging and joining datasets.
+Powerful group-by functionality for aggregation and transformation.
+Time-series analysis capabilities.
+Read/write data from/to various file formats, including CSV, Excel, SQL, and JSON.
+
+Core Data Structures
+1. Series
+A one-dimensional labeled array.
+Labels are referred to as the index.
+Example:
+python
+Copy code
+
+import pandas as pd
+# Create a Series
+s = pd.Series([10, 20, 30, 40], index=['a', 'b', 'c', 'd'])
+print(s)
+o/p:
+a    10
+b    20
+c    30
+d    40
+dtype: int64
+
+2. DataFrame
+A two-dimensional, size-mutable, and heterogeneous tabular data structure.
+Columns can be of different data types.
+Example:
+python
+Copy code
+
+# Create a DataFrame
+data = {
+    'Name': ['Alice', 'Bob', 'Charlie'],
+    'Age': [25, 30, 35],
+    'Score': [85, 90, 95]
+}
+df = pd.DataFrame(data)
+print(df)
+o/p
+      Name  Age  Score
+0    Alice   25     85
+1      Bob   30     90
+2  Charlie   35     95
+
+Common Operations in Pandas
+
+1. Data Loading
+Pandas can read data from multiple formats:
+
+CSV: pd.read_csv('file.csv')
+Excel: pd.read_excel('file.xlsx')
+SQL: pd.read_sql(query, connection)
+JSON: pd.read_json('file.json')
+2. Data Inspection
+python
+Copy code
+df.head()       # First 5 rows
+df.tail()       # Last 5 rows
+df.info()       # Summary of the DataFrame
+df.describe()   # Statistical summary of numerical columns
+df.shape        # Dimensions of the DataFrame
+df.columns      # List of column names
+df.dtypes       # Data types of each column
+3. Data Selection
+Selecting Columns:
+python
+Copy code
+df['Age']           # Single column
+df[['Name', 'Score']]  # Multiple columns
+Selecting Rows:
+python
+Copy code
+df.iloc[0]         # Select first row by position
+df.loc[0]          # Select row by index
+df.loc[0:2]        # Select range of rows
+Conditional Selection:
+python
+Copy code
+df[df['Age'] > 30]  # Filter rows where Age > 30
+4. Data Cleaning
+Handling Missing Data:
+python
+Copy code
+df.isnull()         # Check for missing values
+df.dropna()         # Remove rows with missing values
+df.fillna(0)        # Replace missing values with 0
+Renaming Columns:
+python
+Copy code
+df.rename(columns={'Name': 'Full Name'}, inplace=True)
+Changing Data Types:
+python
+Copy code
+df['Age'] = df['Age'].astype(float)
+5. Adding/Removing Columns
+Add a Column:
+python
+Copy code
+df['New Column'] = [1, 2, 3]
+Remove a Column:
+python
+Copy code
+df.drop('New Column', axis=1, inplace=True)
+6. Sorting
+python
+Copy code
+df.sort_values(by='Age', ascending=True, inplace=True)  # Sort by Age
+7. Aggregation and Grouping
+Group By:
+python
+Copy code
+df.groupby('Age').mean()   # Group by Age and calculate mean
+Aggregate:
+python
+Copy code
+df.agg({'Age': 'mean', 'Score': 'max'})  # Custom aggregation
+8. Joining and Merging
+Concatenation:
+python
+Copy code
+pd.concat([df1, df2], axis=0)  # Concatenate rows
+Merging:
+python
+Copy code
+pd.merge(df1, df2, on='common_column')  # Merge DataFrames on a key
+9. Pivoting
+python
+Copy code
+df.pivot(index='Name', columns='Age', values='Score')
+10. Exporting Data
+python
+Copy code
+df.to_csv('file.csv', index=False)     # Save as CSV
+df.to_excel('file.xlsx', index=False)  # Save as Excel
+Example Workflow
+Here’s an end-to-end example of a Pandas workflow:
+
+python
+Copy code
+import pandas as pd
+
+# Load data
+df = pd.read_csv('data.csv')
+
+# Inspect data
+print(df.head())
+print(df.info())
+
+# Clean data
+df['Age'].fillna(df['Age'].mean(), inplace=True)
+
+# Analyze data
+grouped = df.groupby('Gender').mean()
+print(grouped)
+
+# Add new column
+df['Score/Max'] = df['Score'] / 100
+
+# Save results
+df.to_csv('cleaned_data.csv', index=False)
